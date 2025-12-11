@@ -1,5 +1,5 @@
 {
-  "name": "magic-stream-client",
+  "name": "magic_stream_movies_client",
   "private": true,
   "version": "0.0.0",
   "type": "module",
