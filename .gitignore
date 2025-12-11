@@ -1,0 +1,47 @@
+# Binaries
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# Go build artifacts
+bin/
+build/
+dist/
+*.a
+
+# Test binary/data
+coverage.out
+*.cover
+*.coverprofile
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+
+# Logs
+*.log
+
+# Modules (keep go.mod & go.sum)
+vendor/
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Environment files (important!)
+.env
+*.env
+
+# Go workspace files
+go.work
+go.work.sum
