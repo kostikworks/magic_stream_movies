@@ -4,7 +4,9 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"time"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	"github.com/kostikworks/magic_stream_movies/server/magic_stream_movies_server/database"
@@ -38,6 +40,16 @@ func main() {
 			log.Fatalf("Failed to disconnect from MongoDB: %v", err)
 		}
 	}()
+
+	config := cors.Config{}
+
+	config.AllowAllOrigins = true
+	config.AllowMethods = []string{"GET", "POST", "PATCH", "DELETE"}
+	config.AllowHeaders = []string{"Origin", "Content-Type", "Authorization"}
+	config.ExposeHeaders = []string{"Content-Length"}
+	config.MaxAge = 12 * time.Hour
+
+	router.Use(cors.New(config))
 
 	routes.SetupUnprotectedRoutes(router, client)
 	routes.SetupProtectedRoutes(router, client)
