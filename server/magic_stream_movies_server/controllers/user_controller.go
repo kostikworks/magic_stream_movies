@@ -34,40 +34,39 @@ func RegisterUser(client *mongo.Client) gin.HandlerFunc {
 			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input data"})
 			return
 		}
-
 		validate := validator.New()
+
+		hashedPassword, err := HashPassword(user.Password)
+
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Unable to hash password"})
+			return
+		}
+
+		var ctx, cancel = context.WithTimeout(c, 100*time.Second)
+		defer cancel()
+
+		var userCollection *mongo.Collection = database.OpenCollection("users", client)
+
+		count, err := userCollection.CountDocuments(ctx, bson.D{{Key: "email", Value: user.Email}})
+
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to check existing user"})
+			return
+		}
+		if count > 0 {
+			c.JSON(http.StatusConflict, gin.H{"error": "User already exists"})
+			return
+		}
+		user.UserID = bson.NewObjectID().Hex()
+		user.CreatedAt = time.Now()
+		user.UpdatedAt = time.Now()
+		user.Password = hashedPassword
 
 		if err := validate.Struct(user); err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": "Validation failed", "details": err.Error()})
 			return
 		}
-
-		hashedPassword, err := HashPassword(user.Password)
-		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to hash password"})
-			return
-		}
-
-		ctx, cancel := context.WithTimeout(c.Request.Context(), 100*time.Second)
-		defer cancel()
-
-		var userCollection *mongo.Collection = database.OpenCollection("users", client)
-
-		count, err := userCollection.CountDocuments(ctx, bson.M{"email": user.Email})
-		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to check existing user"})
-			return
-		}
-
-		if count > 0 {
-			c.JSON(http.StatusConflict, gin.H{"error": "This email is already used"})
-			return
-		}
-
-		user.UserID = bson.NewObjectID().Hex()
-		user.CreatedAt = time.Now()
-		user.UpdatedAt = time.Now()
-		user.Password = hashedPassword
 
 		result, err := userCollection.InsertOne(ctx, user)
 
@@ -77,7 +76,9 @@ func RegisterUser(client *mongo.Client) gin.HandlerFunc {
 		}
 
 		c.JSON(http.StatusCreated, result)
+
 	}
+
 }
 
 func LoginUser(client *mongo.Client) gin.HandlerFunc {

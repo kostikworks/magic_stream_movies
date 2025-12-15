@@ -16,7 +16,7 @@ const Header = () => {
                     Magic Stream
                 </Navbar.Brand>
             
-                <Navbar.Toggle area- controls='main-navbar-nav' />
+                <Navbar.Toggle area-controls='main-navbar-nav' />
                 <Navbar.Collapse>
                     <Nav className='me-auto'>
                         <Nav.Link as = {NavLink} to="/">

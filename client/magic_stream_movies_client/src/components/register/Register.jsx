@@ -1,24 +1,22 @@
-import { useState, useEffect } from 'react';
-
+import { useState, useEffect} from 'react';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/form';
+import Form from 'react-bootstrap/Form';
 import axiosClient from '../../api/axiosConfig';
 import { useNavigate, Link } from 'react-router-dom';
 
 
 const Register = () => {
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [favouriteGenres, setFavouriteGenres] = useState([]);
+    const [genres, setGenres] = useState([]);
 
-    const [ firstName, setFirstName ] = useState('');
-    const [ lastName. setLastName ] = useState('');
-    const [ email, setEmail ] = useState('');
-    const [ password, setPassword ] = useState('');
-    const [ confirmPassword, setConfirmPassword ] = useState('');
-    const [ favouriteGenres, setFavouriteGenres ] = useState('');
-    const [ genres, setGenres ] = useState('');
-
-    const [ error, setError ] = useState(null);
-    const [ loading, setLoading ] = useState([]);
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
     const handleGenreChange = (e) => {
@@ -28,8 +26,7 @@ const Register = () => {
             genre_name: opt.label
         })));
     };
-
-    const handleSubmit = async (e) => {
+   const handleSubmit = async (e) => {
         e.preventDefault();
         setError(null);
         const defaultRole ="USER";
@@ -69,26 +66,31 @@ const Register = () => {
 
     useEffect(() => {
         const fetchGenres = async () => {
-            try {
-                const response = await axiosClient.get('/genres')
-                setGenres(response.data)
-            } catch (error) {
-                console.error('Error fetching movie genres', error)
-            }
+        try {
+            const response = await axiosClient.get('/genres');
+            setGenres(response.data);
+        } catch (error) {
+            console.error('Error fetching movie genres:', error);
+        }
         };
+    
         fetchGenres();
     }, []);
 
+
     return (
-        <Container className='login-container d-flex align-center justify-center min-vh-100'>
-            <div className="login-card shadow p-4 rounded bg-white" style={{maxWidth: 400, width: '100%'}}>
+
+
+       <Container className="login-container d-flex align-items-center justify-content-center min-vh-100">
+        <div className="login-card shadow p-4 rounded bg-white" style={{maxWidth: 400, width: '100%'}}>
                 <div className="text-center mb-4">
+                 
                     <h2 className="fw-bold">Register</h2>
                     <p className="text-muted">Create your Magic Movie Stream account.</p>
                     {error && <div className="alert alert-danger py-2">{error}</div>}                
                 </div>
-            <Form onSubmit={handleSubmit}>
-                    <Form.Group className="mb-3">
+             <Form onSubmit={handleSubmit}>
+                     <Form.Group className="mb-3">
                         <Form.Label>First Name</Form.Label>
                         <Form.Control
                             type="text"
@@ -98,7 +100,7 @@ const Register = () => {
                             required
                         />
                     </Form.Group>
-                    <Form.Group className="mb-3">
+                     <Form.Group className="mb-3">
                         <Form.Label>Last Name</Form.Label>
                         <Form.Control
                             type="text"
@@ -108,7 +110,7 @@ const Register = () => {
                             required
                         />
                     </Form.Group>
-                    <Form.Group className="mb-3">
+                     <Form.Group className="mb-3">
                         <Form.Label>Email</Form.Label>
                         <Form.Control
                             type="email"
@@ -118,7 +120,7 @@ const Register = () => {
                             required
                         />
                     </Form.Group>
-                    <Form.Group className="mb-3">
+                     <Form.Group className="mb-3">
                         <Form.Label>Password</Form.Label>
                         <Form.Control
                             type="password"
@@ -128,7 +130,7 @@ const Register = () => {
                             required
                         />
                     </Form.Group>
-                    <Form.Group className="mb-3">
+                     <Form.Group className="mb-3">
                         <Form.Label>Confirm Password</Form.Label>
                         <Form.Control
                             type="password"
@@ -159,7 +161,7 @@ const Register = () => {
                             Hold Ctrl (Windows) or Cmd (Mac) to select multiple genres.
                         </Form.Text>
                     </Form.Group>
-                    <Button
+                     <Button
                         variant="primary"
                         type="submit"
                         className="w-100 mb-2"
@@ -174,10 +176,9 @@ const Register = () => {
                         ) : 'Register'}
                     </Button>                        
             </Form>
-            </div>
-        </Container>
+            </div>           
+       </Container>
 
     )
-};
-
-export default Register
+}
+export default Register;
