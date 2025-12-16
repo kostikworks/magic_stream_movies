@@ -26,7 +26,7 @@ const Register = () => {
             genre_name: opt.label
         })));
     };
-   const handleSubmit = async (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setError(null);
         const defaultRole ="USER";
@@ -81,16 +81,16 @@ const Register = () => {
     return (
 
 
-       <Container className="login-container d-flex align-items-center justify-content-center min-vh-100">
+    <Container className="login-container d-flex align-items-center justify-content-center min-vh-100">
         <div className="login-card shadow p-4 rounded bg-white" style={{maxWidth: 400, width: '100%'}}>
                 <div className="text-center mb-4">
-                 
+                
                     <h2 className="fw-bold">Register</h2>
                     <p className="text-muted">Create your Magic Movie Stream account.</p>
                     {error && <div className="alert alert-danger py-2">{error}</div>}                
                 </div>
-             <Form onSubmit={handleSubmit}>
-                     <Form.Group className="mb-3">
+            <Form onSubmit={handleSubmit}>
+                    <Form.Group className="mb-3">
                         <Form.Label>First Name</Form.Label>
                         <Form.Control
                             type="text"
@@ -100,7 +100,7 @@ const Register = () => {
                             required
                         />
                     </Form.Group>
-                     <Form.Group className="mb-3">
+                    <Form.Group className="mb-3">
                         <Form.Label>Last Name</Form.Label>
                         <Form.Control
                             type="text"
@@ -110,7 +110,7 @@ const Register = () => {
                             required
                         />
                     </Form.Group>
-                     <Form.Group className="mb-3">
+                    <Form.Group className="mb-3">
                         <Form.Label>Email</Form.Label>
                         <Form.Control
                             type="email"
@@ -120,7 +120,7 @@ const Register = () => {
                             required
                         />
                     </Form.Group>
-                     <Form.Group className="mb-3">
+                    <Form.Group className="mb-3">
                         <Form.Label>Password</Form.Label>
                         <Form.Control
                             type="password"
@@ -130,7 +130,7 @@ const Register = () => {
                             required
                         />
                     </Form.Group>
-                     <Form.Group className="mb-3">
+                    <Form.Group className="mb-3">
                         <Form.Label>Confirm Password</Form.Label>
                         <Form.Control
                             type="password"
@@ -161,7 +161,7 @@ const Register = () => {
                             Hold Ctrl (Windows) or Cmd (Mac) to select multiple genres.
                         </Form.Text>
                     </Form.Group>
-                     <Button
+                    <Button
                         variant="primary"
                         type="submit"
                         className="w-100 mb-2"
@@ -177,8 +177,9 @@ const Register = () => {
                     </Button>                        
             </Form>
             </div>           
-       </Container>
+        </Container>
 
     )
-}
+};
+
 export default Register;

@@ -3,11 +3,12 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar'
 import { useNavigate, NavLink, Link } from 'react-router-dom'
-import { useState } from 'react'
+// import { useState } from 'react'
+import useAuth from '../../hook/useAuth';
 
 const Header = () => {
     const navigate = useNavigate();
-    const [ auth, setAuth ] = useState(false);
+    const {auth} = useAuth();
 
     return (
         <Navbar bg="dark" variant='dark' expand='lg' className='shadow-sm'>
@@ -30,8 +31,8 @@ const Header = () => {
                     <Nav className='ms-auto align-items-center'>
                         {auth ? (
                             <>
-                                <span>
-                                    Hello, <strong>Name</strong>
+                                <span style={{color: 'white', marginRight: '15px'}}>
+                                    Hello, <strong>{auth.first_name}</strong>
                                 </span>
                                 <Button variant='outline-light' size='sm'>
                                     Logout
