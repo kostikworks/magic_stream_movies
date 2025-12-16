@@ -1,6 +1,7 @@
 
 import './App.css'
 import Home from './components/home/Home'
+import Recommended from './components/recommended/Recommedned';
 import Header from './components/header/Header'
 import {Route, Routes, useNavigate} from 'react-router-dom'
 import Login from './components/login/Login'
@@ -18,7 +19,7 @@ function App() {
                 <Route path="/register" element={<Register />}></Route>
                 <Route path="/login" element={<Login />}></Route>
                 <Route element={<RequiredAuth />}>
-                    {/* <Route path="/recommended" element={{Recommended />}} /> */}
+                    <Route path="/recommended" element={<Recommended />}></Route>
                 </Route>
             </Routes>
         </>
