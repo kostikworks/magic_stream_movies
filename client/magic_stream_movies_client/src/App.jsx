@@ -1,29 +1,49 @@
-
-import './App.css'
-import Home from './components/home/Home'
+import './App.css';
+import Home from './components/home/Home';
 import Recommended from './components/recommended/Recommedned';
-import Header from './components/header/Header'
-import {Route, Routes, useNavigate} from 'react-router-dom'
-import Login from './components/login/Login'
-import Register from './components/register/Register'
-import Layout from './components/Layout'
-import RequiredAuth from './components/RequiredAuth'
+import Review from './components/review/Review';
+import Header from './components/header/Header';
+import { Route, Routes, useNavigate } from 'react-router-dom';
+import Login from './components/login/Login';
+import Register from './components/register/Register';
+import Layout from './components/Layout';
+import RequiredAuth from './components/RequiredAuth';
+import axiosClient from './api/axiosConfig';
+import useAuth from './hook/useAuth';
 
 function App() {
-    
-    return (
-        <>
-            <Header />
-            <Routes path="/" element={Layout}>
-                <Route path="/" element={<Home />}></Route>
-                <Route path="/register" element={<Register />}></Route>
-                <Route path="/login" element={<Login />}></Route>
-                <Route element={<RequiredAuth />}>
-                    <Route path="/recommended" element={<Recommended />}></Route>
-                </Route>
-            </Routes>
-        </>
-    )
+  const navigate = useNavigate();
+
+  const updateMovieReview = (imdb_id) => {
+    navigate(`/review/${imdb_id}`);
+  };
+
+  const handleLogout = async () => {
+    try {
+      const response = await axiosClient.post('/logout', { user_id: auth.user_id });
+      console.log(response.data);
+      setAuth(null);
+      localStorage.removeItem('user');
+      console.log('User logged out');
+    } catch (error) {
+      console.error('Error logging out:', error);
+    }
+  };
+
+  return (
+    <>
+      <Header />
+      <Routes path="/" element={Layout}>
+        <Route path="/" element={<Home updateMovieReview={updateMovieReview} />}></Route>
+        <Route path="/register" element={<Register />}></Route>
+        <Route path="/login" element={<Login />}></Route>
+        <Route element={<RequiredAuth />}>
+          <Route path="/recommended" element={<Recommended />}></Route>
+          <Route path="/review/:imdb_id" element={<Review />}></Route>
+        </Route>
+      </Routes>
+    </>
+  );
 }
 
-export default App 
+export default App;

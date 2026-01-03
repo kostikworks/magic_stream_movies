@@ -4,6 +4,8 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"os"
+	"strings"
 	"time"
 
 	"github.com/gin-contrib/cors"
@@ -28,6 +30,32 @@ func main() {
 		log.Println("Warning: failed to load .env file")
 	}
 
+	allowedOrigins := os.Getenv("ALLOWED_ORIGINS")
+
+	var origins []string
+	if allowedOrigins != "" {
+		origins = strings.Split(allowedOrigins, ",")
+		for i := range origins {
+			origins[i] = strings.TrimSpace(origins[i])
+			log.Println("Allowed Origin:", origins[i])
+		}
+	} else {
+		origins = []string{"http://localhost:5173"}
+		log.Println("Allowed Origin: http://localhost:5173")
+	}
+
+	config := cors.Config{}
+	config.AllowOrigins = origins
+	config.AllowMethods = []string{"GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"}
+	//config.AllowHeaders = []string{"Origin", "Content-Type", "Accept", "Authorization"}
+	config.AllowHeaders = []string{"Origin", "Content-Type", "Authorization"}
+	config.ExposeHeaders = []string{"Content-Length"}
+	config.AllowCredentials = true
+	config.MaxAge = 12 * time.Hour
+
+	router.Use(cors.New(config))
+	router.Use(gin.Logger())
+
 	var client *mongo.Client = database.ConnectDB()
 
 	if err := client.Ping(context.Background(), nil); err != nil {
@@ -40,16 +68,6 @@ func main() {
 			log.Fatalf("Failed to disconnect from MongoDB: %v", err)
 		}
 	}()
-
-	config := cors.Config{}
-
-	config.AllowAllOrigins = true
-	config.AllowMethods = []string{"GET", "POST", "PATCH", "DELETE"}
-	config.AllowHeaders = []string{"Origin", "Content-Type", "Authorization"}
-	config.ExposeHeaders = []string{"Content-Length"}
-	config.MaxAge = 12 * time.Hour
-
-	router.Use(cors.New(config))
 
 	routes.SetupUnprotectedRoutes(router, client)
 	routes.SetupProtectedRoutes(router, client)
