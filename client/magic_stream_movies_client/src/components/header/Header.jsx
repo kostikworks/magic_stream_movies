@@ -1,12 +1,12 @@
-import Button from "react-bootstrap/Button";
-import Container from "react-bootstrap/Container";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
-import { useNavigate, NavLink, Link } from "react-router-dom";
+import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+import { useNavigate, NavLink, Link } from 'react-router-dom';
 // import { useState } from 'react'
-import useAuth from "../../hook/useAuth";
+import useAuth from '../../hook/useAuth';
 
-const Header = () => {
+const Header = ({ handleLogout }) => {
   const navigate = useNavigate();
   const { auth } = useAuth();
 
@@ -29,28 +29,19 @@ const Header = () => {
           <Nav className="ms-auto align-items-center">
             {auth ? (
               <>
-                <span style={{ color: "white", marginRight: "15px" }}>
+                <span style={{ color: 'white', marginRight: '15px' }}>
                   Hello, <strong>{auth.first_name}</strong>
                 </span>
-                <Button variant="outline-light" size="sm">
+                <Button variant="outline-light" size="sm" onClick={handleLogout}>
                   Logout
                 </Button>
               </>
             ) : (
               <>
-                <Button
-                  variant="outline-info"
-                  size="sm"
-                  className="me-2"
-                  onClick={() => navigate("/login")}
-                >
+                <Button variant="outline-info" size="sm" className="me-2" onClick={() => navigate('/login')}>
                   Login
                 </Button>
-                <Button
-                  variant="info"
-                  size="sm"
-                  onClick={() => navigate("/register")}
-                >
+                <Button variant="info" size="sm" onClick={() => navigate('/register')}>
                   Register
                 </Button>
               </>

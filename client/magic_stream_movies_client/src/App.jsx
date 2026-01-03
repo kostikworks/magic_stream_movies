@@ -13,6 +13,7 @@ import useAuth from './hook/useAuth';
 
 function App() {
   const navigate = useNavigate();
+  const { auth, setAuth } = useAuth();
 
   const updateMovieReview = (imdb_id) => {
     navigate(`/review/${imdb_id}`);
@@ -32,7 +33,7 @@ function App() {
 
   return (
     <>
-      <Header />
+      <Header handleLogout={handleLogout} />
       <Routes path="/" element={Layout}>
         <Route path="/" element={<Home updateMovieReview={updateMovieReview} />}></Route>
         <Route path="/register" element={<Register />}></Route>
