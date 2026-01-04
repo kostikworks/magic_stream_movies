@@ -5,6 +5,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import { useNavigate, NavLink, Link } from 'react-router-dom';
 // import { useState } from 'react'
 import useAuth from '../../hook/useAuth';
+import logo from '../../assets/MagicStreamLogo.png';
 
 const Header = ({ handleLogout }) => {
   const navigate = useNavigate();
@@ -13,7 +14,10 @@ const Header = ({ handleLogout }) => {
   return (
     <Navbar bg="dark" variant="dark" expand="lg" className="shadow-sm">
       <Container>
-        <Navbar.Brand>Magic Stream</Navbar.Brand>
+        <Navbar.Brand>
+          <img alt="" src={logo} width="30" height="30" className="d-inline-block align-top me-2" />
+          Magic Stream
+        </Navbar.Brand>
 
         <Navbar.Toggle area-controls="main-navbar-nav" />
         <Navbar.Collapse>
