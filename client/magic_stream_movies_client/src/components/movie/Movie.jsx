@@ -1,11 +1,14 @@
 import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
+import './Movie.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCirclePlay } from '@fortawesome/free-solid-svg-icons';
 
 const Movie = ({ movie, updateMovieReview }) => {
   return (
     <div className="col-md-4 mb-4" key={movie._id}>
       <Link to={`/stream/${movie.youtube_id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-        <div className="card h-100 shadow-sm">
+        <div className="card h-100 shadow-sm movie-card">
           <div style={{ position: 'relative' }}>
             <img
               src={movie.poster_path}
@@ -17,6 +20,9 @@ const Movie = ({ movie, updateMovieReview }) => {
                 width: '100%',
               }}
             />
+            <span className="play-icon-overlay">
+              <FontAwesomeIcon icon={faCirclePlay} />
+            </span>
           </div>
           <div className="card-body d-flex flex-column">
             <h5 className="card-title">{movie.title}</h5>
