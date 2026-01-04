@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button';
 import { Form } from 'react-bootstrap';
 import axiosClient from '../../api/axiosConfig';
 import { useNavigate, Link } from 'react-router-dom';
+import logo from '../../assets/MagicStreamLogo.png';
 
 const Register = () => {
   const [firstName, setFirstName] = useState('');
@@ -81,6 +82,7 @@ const Register = () => {
     <Container className="login-container d-flex align-items-center justify-content-center min-vh-100">
       <div className="login-card shadow p-4 rounded bg-white" style={{ maxWidth: 400, width: '100%' }}>
         <div className="text-center mb-4">
+          <img alt="" src={logo} width="30" height="30" className="d-inline-block align-top me-2" />
           <h2 className="fw-bold">Register</h2>
           <p className="text-muted">Create your Magic Movie Stream account.</p>
           {error && <div className="alert alert-danger py-2">{error}</div>}
